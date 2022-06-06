@@ -1,2 +1,10 @@
 
 netMHCpan_out/
+
+epitope_dist/
+
+out.csv
+
+outtest.csv
+
+*.csv
