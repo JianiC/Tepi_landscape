@@ -10,3 +10,5 @@ outtest.csv
 *.csv
 
 netMHCpan_out copy/
+
+*.png
