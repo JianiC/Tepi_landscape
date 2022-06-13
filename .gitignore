@@ -12,3 +12,7 @@ outtest.csv
 netMHCpan_out copy/
 
 *.png
+
+snakemake-tutorial/.snakemake/log/2022-06-12T164904.081499.snakemake.log
+
+snakemake-tutorial/
