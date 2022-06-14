@@ -16,3 +16,6 @@ netMHCpan_out copy/
 snakemake-tutorial/.snakemake/log/2022-06-12T164904.081499.snakemake.log
 
 snakemake-tutorial/
+
+snakemake/data/
+snakemake/Tepi_lanscape_env

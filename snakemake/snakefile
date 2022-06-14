@@ -1,0 +1,7 @@
+rule pep_aln:
+    input:
+        "data/{sample}.pep"
+    output:
+        "data/{sample}_al.pep"
+    shell:
+        "mafft {input} > {output}"
