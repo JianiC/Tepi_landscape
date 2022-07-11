@@ -1,6 +1,7 @@
 #!/bin/bash
+## change to the data directory
 
-## example to run: run_netMHCpan.sh -i "input_protein_file" -l "length_of_epitope" -A "list_of_Allel(sep by space ")
+## example to run: run_netMHCpan.sh -i "input_protein_file" -l "length_of_epitope" -A "list_of_Allel(sep by space -o output")
 print_usage() {
   printf "Usage: ..."
 }
@@ -14,13 +15,14 @@ print_usage() {
 ##### take command line args
 #######################################################
 
-while getopts 'i:l:A:' flag
+while getopts 'i:l:A:o:' flag
 
 do
 	case "${flag}" in
         i) seq_pep=${OPTARG} ;;
         l) epitope_len=${OPTARG} ;; 
-        A) A_list=${OPTARG} ;;            
+        A) A_list=${OPTARG} ;;
+        o) samplexls=${OPTARG} ;;           
         *) echo "Invalid option: -$flag" 
  #       	print_usage 
   #      	exit 1 ;;
@@ -33,7 +35,8 @@ done
 #######################################################
 ## for multiple allele use allele supetertype
 A_supertype_full=()
-A_supertype_short=(HLA-A*01:01 HLA-A*02:01 HLA-A*03:01 HLA-A*24:02 HLA-B*07:02 HLA-B*44:03)
+#A_supertype_short=(HLA-A01:01 HLA-A02:01 HLA-A03:01 HLA-A24:02 HLA-B07:02 HLA-B44:03)
+A_supertype_short=(HLA-A01:01 HLA-A02:01)
 #epitope_len="8,9,10,11" 
 
 
@@ -45,34 +48,39 @@ then
 	A_list=("${A_supertype_short[@]}")
 fi
 
-
+mkdir ./results
 #####################################################
 ##### run netMHCpan command line 
 #######################################################
 
-mkdir netMHCpan_out
-
-## add path to get input file
-
 for allele in "${A_list[@]}"
 do
 	out=$(sed 's|[-*:]||g' <<< $allele)
-	outxls="./netMHCpan_out/$out.xls"
+	outxls="results/$out.xls"
+	#input="data/$seq_pep"
 
-	#echo "netMHCpan -f $seq_pep" -l $epitope_len -a $allele -xls -xlsfile $outxls  	##test
-	netMHCpan -f $seq_pep -l $epitope_len -xls -a allele -xlsfile $outxls 
+	#echo "netMHCpan -f $input" -l $epitope_len -a $allele -xls -xlsfile $outxls  	##test
+
+	netMHCpan -f $seq_pep -l $epitope_len -a $allele -xls -xlsfile $outxls  
 done 
 
-######################################################
-###### combine multiple xls file to a single xls file
+
+#####################################################
+##### combine all xls file
 #######################################################
+#sample=$(sed 's|_al.pep||g' <<< $seq_pep)
+#samplexls="$sample.xls"
+#echo "$samplexls"
+
+echo "now do combine test"
 
 ## remove the first line of Allele info
-for FILE in $(find ./netMHCpan_out -type f -name 'HLA*xls')
+for FILE in $(find ./results -type f -name 'HLA*xls')
 do
+	echo $FILE
 	tail -n +2 "$FILE" > "$FILE.tmp" 
 	mv "$FILE.tmp" "$FILE"
 done
 
 ## concatenate output from different allele with same header
-awk '(NR == 1) || (FNR > 1)' HLA*xls > netMHCpan_$sample.xls
+awk '(NR == 1) || (FNR > 1)' ./results/HLA*xls > $samplexls

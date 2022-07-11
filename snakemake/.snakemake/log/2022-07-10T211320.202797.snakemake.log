@@ -1,0 +1,25 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job              count    min threads    max threads
+-------------  -------  -------------  -------------
+run_netMHCpan        1              1              1
+total                1              1              1
+
+Select jobs to execute...
+
+[Sun Jul 10 21:13:20 2022]
+rule run_netMHCpan:
+    input: data/test_netpan_al.pep
+    output: results/test_netpan.xls
+    jobid: 0
+    reason: Missing output files: results/test_netpan.xls
+    wildcards: sample=test_netpan
+    resources: tmpdir=/var/folders/3n/dzwnf1yn2pz2qt6dgklrqmfh0000gp/T
+
+[Sun Jul 10 21:13:50 2022]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: .snakemake/log/2022-07-10T211320.202797.snakemake.log

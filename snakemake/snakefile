@@ -5,3 +5,27 @@ rule pep_aln:
         "data/{sample}_al.pep"
     shell:
         "mafft {input} > {output}"
+
+rule run_netMHCpan:
+    input:
+        "data/{sample}_al.pep"
+    output:
+        "results/{sample}.xls"
+    shell:
+        "sh scripts/run_netMHCpan.sh -i {input} -o {output}"
+
+rule T_dist:
+    input:
+        "results/{sample}.xls"
+    output:
+        "results/{sample}.csv"
+    shell:
+        "python scripts/Tepitope_manhattondist_allele.py -i {input} -o {output}"
+
+rule mds_plot:
+    input:
+        "results/{sample}.csv"
+    output:
+        "results/{sample}_coord.csv"
+    shell:
+        "python scripts/mds.py -i {input} -o {output}"
