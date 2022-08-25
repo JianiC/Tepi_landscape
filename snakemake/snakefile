@@ -29,3 +29,12 @@ rule mds_plot:
         "results/{sample}_coord.csv"
     shell:
         "python scripts/mds.py -i {input} -o {output}"
+
+
+rule kmeans_plot:
+    input:
+        "results/{sample}.csv"
+    output:
+        "results/{sample}_coord.csv"
+    shell:
+        "python scripts/kmeans.py -i {input} -o {output}"

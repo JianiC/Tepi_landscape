@@ -1,7 +1,10 @@
 #!/usr/bin/env python
-# coding: utf-8
 
-# In[ ]:
+## Purpose: generate mds plot based on distance calculation
+## input: the netMPHpan xlsx for multiple sequence but single allel
+## output: fig1 with user defined group
+######### fig2: with k-means defined group
+########## mds coordinates
 
 
 import pandas as pd
@@ -18,7 +21,7 @@ from sklearn.cluster import KMeans
 import argparse
 
 
-# In[ ]:
+
 
 
 ## from distance dataframe to generate a full matrix
@@ -31,7 +34,7 @@ def fullmatrix(df1):
     return(data)
 
 
-# In[ ]:
+
 
 
 ## print MDS use user define group
@@ -47,7 +50,7 @@ def mdsplot_usergroup(strain, coords,meta):
     
 
 
-# In[ ]:
+
 
 
 def main():
